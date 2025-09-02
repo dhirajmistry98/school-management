@@ -1,4 +1,4 @@
-
+// src/components/SchoolCard.jsx - Enhanced with better image handling
 "use client";
 
 import Image from 'next/image';
