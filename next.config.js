@@ -11,9 +11,8 @@ const nextConfig = {
     ],
     unoptimized: process.env.NODE_ENV === 'development',
   },
-  experimental: {
-    serverComponentsExternalPackages: ['mysql2'],
-  },
+  serverExternalPackages: ['mysql2'],
+  reactStrictMode: true,
 };
 
 module.exports = nextConfig;
