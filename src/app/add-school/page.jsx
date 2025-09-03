@@ -81,13 +81,15 @@ export default function AddSchool() {
       const result = await response.json();
 
       if (response.ok) {
-        alert('School added successfully!');
+        alert(`School "${data.name}" added successfully! 🎉`);
+        console.log('School created:', result);
         reset();
         setUploadedImageUrl(null);
         setImagePreview(null);
         router.push('/show-schools');
       } else {
-        alert('Error: ' + result.error);
+        console.error('Server error:', result);
+        alert('Error: ' + (result.error || 'Failed to add school'));
       }
     } catch (error) {
       alert('Error: ' + error.message);
