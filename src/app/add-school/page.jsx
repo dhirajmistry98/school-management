@@ -8,7 +8,7 @@ import Image from 'next/image';
 export default function AddSchool() {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(null); // Changed from uploadedImage
   const [imagePreview, setImagePreview] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const router = useRouter();
@@ -37,8 +37,8 @@ export default function AddSchool() {
 
       const result = await response.json();
       if (response.ok) {
-        setUploadedImage(result.path);
-        console.log('Image uploaded successfully:', result.path);
+        setUploadedImageUrl(result.path); // This is now the Cloudinary URL
+        console.log('Image uploaded successfully to Cloudinary:', result.path);
       } else {
         alert('Error uploading image: ' + result.error);
         setImagePreview(null);
@@ -52,7 +52,7 @@ export default function AddSchool() {
   };
 
   const removeImage = () => {
-    setUploadedImage(null);
+    setUploadedImageUrl(null);
     setImagePreview(null);
     // Reset the file input
     const fileInput = document.getElementById('image-upload');
@@ -67,7 +67,7 @@ export default function AddSchool() {
     try {
       const schoolData = {
         ...data,
-        image: uploadedImage
+        image: uploadedImageUrl // This is now the Cloudinary URL
       };
 
       const response = await fetch('/api/schools', {
@@ -83,7 +83,7 @@ export default function AddSchool() {
       if (response.ok) {
         alert('School added successfully!');
         reset();
-        setUploadedImage(null);
+        setUploadedImageUrl(null);
         setImagePreview(null);
         router.push('/show-schools');
       } else {
@@ -263,13 +263,13 @@ export default function AddSchool() {
                         <div className="mt-2">
                           <div className="flex items-center justify-center">
                             <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-                            <span className="ml-2 text-sm text-gray-600">Uploading...</span>
+                            <span className="ml-2 text-sm text-gray-600">Uploading to Cloudinary...</span>
                           </div>
                         </div>
                       )}
-                      {uploadedImage && !isUploading && (
+                      {uploadedImageUrl && !isUploading && (
                         <div className="mt-2">
-                          <span className="text-green-600 text-sm">✓ Image uploaded successfully</span>
+                          <span className="text-green-600 text-sm">✓ Image uploaded successfully to Cloudinary</span>
                         </div>
                       )}
                     </div>
